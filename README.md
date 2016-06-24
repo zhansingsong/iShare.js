@@ -1,13 +1,14 @@
 # iShare.js
 
 ##### **iShare.js**是一个小巧的分享插件，纯JS编写，不依赖任何第三方库，使用简便。
-**Jiathis**,** bShare**, **百度分享**等是目前国内比较受欢迎的分享插件，都集成了很多常用的分享接口，功能很丰富。不过个人体验存在如下两点不足：
+
+**Jiathis**, **bShare**, **百度分享**等是目前国内比较受欢迎的分享插件，都集成了很多常用的分享接口，功能很丰富。不过个人体验存在如下两点不足：
 
 1. 定制度不高，特别在自定义样式上。
 2. 没有更新维护，部分接口都是挂掉的。
 3. 提供的大部分接口都是没有用到，而真正用到就那么几个，显得有点冗余。
 
-++**iShare.js**是针对上述问题而诞生的。++
+**iShare.js**是针对上述问题而诞生的。
 
 ![share](isharejs.png)
 
@@ -93,10 +94,11 @@ config:
 - 单例模式
 - 实例化模式
 
-<font color="red">注意：不要同时使用两种模式</font>
+> <font color="red">注意：不要同时使用两种模式</font>
 
 #### 单例模式
-<font color="#E91E63">本实例展示了自定义样式分享的创建过程。另外本库针对自定义样式的创建提炼出一个精简版本：iShare_tidy版本</font>
+> <font color="#E91E63">本实例展示了自定义样式分享的创建过程。另外本库针对自定义样式的创建提炼出一个精简版本：iShare_tidy版本</font>
+
 ```xml
 // 引入脚本文件
 <script type="text/javascript" src="iShare_tidy.js"></script>
@@ -190,8 +192,8 @@ iShare_config = {container:'.iShare1',config:{
 ```
 
 ## 更多详情请参考DEMO
-- ##### [iShare版本](http://zhansingsong.github.io/demo/iShare.html)
-- ##### [iShare_tidy版本](http://zhansingsong.github.io/demo/iShare_tidy.html)
+- [iShare版本](http://zhansingsong.github.io/demo/iShare.html)
+- [iShare_tidy版本](http://zhansingsong.github.io/demo/iShare_tidy.html)
 
 ## License
 iShare.js is covered by the MIT License.
