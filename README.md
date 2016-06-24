@@ -14,7 +14,7 @@
 
 ## 安装
 
-`npm install iShare` 或 `or bower install iShare`
+`npm install zhansingsong-ishare`
 
 ## Features
 
