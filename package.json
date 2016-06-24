@@ -6,8 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zhansingsong/iShare.js.git"
+  },
   "keywords": [
-    "iShare"
+    "iShare",
+    "share",
+    "share plugin"
   ],
   "author": "zhansingsong",
   "license": "MIT"
