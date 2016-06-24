@@ -53,6 +53,13 @@
 					  }else {
 				      event.cancelBubble = true;
 					  }
+				},
+				preventDefault: function(event){
+					if(event.preventDefault){
+						event.preventDefault();
+					} else {
+						event.returnValue = false;
+					}
 				}
 			},
 
@@ -231,12 +238,12 @@
 						_elements = document.body.getElementsByTagName(_prefix),
 						_classNames,
 						_target;
-
+				var _me = this;
 				this.each(_elements, function(index, item){
 					if( item.nodeType === 1 ){
 						_classNames = item.className.split(/\s+/g);
 						_target = item;
-						this.each(_classNames, function(cindex, citem){
+						_me.each(_classNames, function(cindex, citem){
 							if((citem + '') === _suffix){
 								_result.push(_target);
 							}
@@ -270,6 +277,20 @@
 					return;
 				}
 				return encodeURIComponent(_imgs[0].src);
+			},
+
+			/**
+			 * getElement 获取指定元素
+			 * @param {String}  selector 选择器(仅支持class和id)
+			 */
+			getElement: function(selector){
+				var _node;
+				if(selector.charAt(0) === '#'){
+					_node = document.getElementById(selector);
+				} else {
+					_node = this.getElementByclassN(selector)[0];
+				}
+				return _node;
 			},
 
 			/**
@@ -384,13 +405,15 @@
 		 	// 配置项
 		 	this.URL = URL;
 		 	this.style = options.style;
-		 	this.bgcolor = options.bgcolor || '#2BAD13';
+		 	this.bgcolor = options.bgcolor;
 		 	this.evenType = options.evenType || 'mouseover'; // 默认触发方式
 		 	this.isTitleVisibility = (options.isTitleVisibility === void(0)) ? true : options.isTitleVisibility; // 是否有标题
 		 	this.title = options.title || '分享到微信';
 		 	this.isTipVisibility = (options.isTipVisibility === void(0)) ? true : options.isTipVisibility; // 是否有提示
 		 	this.tip = options.tip || '打开微信，使用 “扫一扫” 即可将网页分享到朋友圈。';
 		 	this.upDownFlag = '';// 保存up|down
+		 	this.status = false; // 保存状态
+		 	this.visibility = false;// 保存可见性
 		 }
 		 WX.prototype = function() {
 		 	return{
@@ -403,7 +426,7 @@
 		 		render: function(){
 		 			var _upFlag = '',
 		 					_downFlag = '',
-		 					_widthStyle = (!this.isTitleVisibility || !this.isTipVisibility) ? 'width: 110px;' : 'width : 150px;',
+		 					// _widthStyle = (!this.isTitleVisibility || !this.isTipVisibility) ? 'width: 110px;' : 'width : 150px;',
 		 					_imgStyle = '',//待定
 		 					_titleStyle = '',//待定
 		 					_tipStyle = '', //待定
@@ -412,23 +435,23 @@
 
 		 			// 判断上下
 		 			if (Util.getWinDimension().pageHeight / 2 < Util.getElementTop(this.element)) {
-		 		    _downFlag = 'display:none;';
-		 		    _upFlag = '';
-		 		    this.upDownFlag = 'up';
-		 		    _radius = 'border-top-left-radius: 0;';
+		 				_downFlag = '';
+		 				_upFlag = 'display:none;';
+		 				this.upDownFlag = 'down';
+		 				_radius = 'border-bottom-left-radius: 0;';
 		 			} else {
-		 		    _downFlag = '';
-		 		    _upFlag = 'display:none;';
-		 		    this.upDownFlag = 'down';
-		 		    _radius = 'border-bottom-left-radius: 0;';
+						_downFlag = 'display:none;';
+						_upFlag = '';
+						this.upDownFlag = 'up';
+						_radius = 'border-top-left-radius: 0;';
 		 			}
 		 			
-		 			var	_containerHTML = '<div style="' + _widthStyle + 'text-align: center;background-color: ' + _bgcolor + ';box-shadow: 1px 1px 4px #888888;padding: 8px 8px 4px;border-radius: 4px;' + _radius + '">',
+		 			var	_containerHTML = '<div style="text-align: center;background-color: ' + _bgcolor + ';box-shadow: 1px 1px 4px #888888;padding: 8px 8px 4px;border-radius: 4px;' + _radius + '">',
 		 					_titleHTML = this.isTitleVisibility ?  '<p class="tt" style="line-height: 30px;margin:0; text-shadow: 1px 1px rgba(0,0,0,0.1);font-weight: 700;margin-bottom: 4px;' + _titleStyle + '">' + this.title + '</p>' : '',
 		 					_imgHTML = '<img  style="font-size: 12px;line-height: 20px; -webkit-user-select: none;box-shadow: 1px 1px 2px rgba(0,0,0,0.4); ' + _imgStyle + '" src="' + this.URL + '">',
-		 					_tipHTML = this.isTipVisibility ? '<p style="font-size: 12px;line-height: 20px; margin: 4px 0;' + _tipStyle + '">' + this.tip + '</p>' : '',
-		 					_upArrowHTML = '<div style="' + _upFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-bottom-color: ' + _bgcolor + ';"></div>',
-		 					_downArrowHTML = '</div><div style="' + _downFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-top-color: ' + _bgcolor + ';"></div>';
+		 					_tipHTML = this.isTipVisibility ? '<p style="font-size: 12px;line-height: 20px; margin: 4px auto;width: 120px;' + _tipStyle + '">' + this.tip + '</p>' : '',
+		 					_upArrowHTML = '<div style="' + _upFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-bottom-color: ' + _bgcolor + ';border-top: none;"></div>',
+		 					_downArrowHTML = '</div><div style="' + _downFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-top-color: ' + _bgcolor + ';border-bottom: none;"></div>';
 		      // 拼接WXHTML
 		      var WXSTR = _upArrowHTML + _containerHTML + _titleHTML + _imgHTML + _tipHTML + _downArrowHTML;
 
@@ -444,13 +467,13 @@
 		 					_eH = this.element.offsetHeight,
 		 					_eTop = Util.getElementTop(this.element),
 		 					_eLeft = Util.getElementLeft(this.element),
-		 					_boxStyle = 'position:absolute; color: #000;z-index: -1;';
+		 					_boxStyle = 'position:absolute; color: #000;z-index: 99999;';
 		 			
 		 			_boxStyle = _boxStyle + 'left: ' + ( _eW / 2 - 12 + _eLeft) + 'px;';
 		 			if(this.upDownFlag === 'down'){
-		 				_boxStyle = _boxStyle + 'top: ' + (_eTop - _boxH + 8 ) + 'px;';
+		 				_boxStyle = _boxStyle + 'top: ' + (_eTop - _boxH) + 'px;';
 		 			} else {
-		 				_boxStyle = _boxStyle + 'top: ' + (_eTop + (_eH - 8)) + 'px;';
+		 				_boxStyle = _boxStyle + 'top: ' + (_eTop + _eH) + 'px;';
 		 			}
 		 			this.wxbox.style.cssText = _boxStyle + this.style;
 		 			flag && (this.hide());
@@ -461,7 +484,8 @@
 			 			Util.event.addEvent(this.element, 'click', function(e){
 			 				var event = e || window.event;
 		 					Util.event.stopPropagation(event);
-		 					if(_me.getflag() === 'none'){
+		 					Util.event.preventDefault(event);
+		 					if(!_me.visibility){
 			 					_me.show();
 		 					} else {
 		 						_me.hide();
@@ -480,53 +504,69 @@
 			 			});
 		 			}
 		 			Util.event.addEvent(window, 'resize', Util.throttle(function(){
-		 				_me.setLocation();
+		 				(_me.status) && (_me.visibility) && (_me.setLocation());
 		 			}, 200));
 		 		},
-		 		show: function() {
-		 		  this.wxbox.style.display = 'block';
+		 		show: function(){
+	 				this.status = true;
+	 				this.wxbox.style.display = 'block';
+	 				this.visibility = true;
+	 				this.show = function(){
+	 					this.wxbox.style.display = 'block';
+	 					this.visibility = true;
+	 				}
 		 		},
 		 		hide: function() {
 		 		  this.wxbox.style.display = 'none';
-		 		},
-		 		getflag: function() {
-		 		  return this.wxbox.style.display;
+		 		  this.visibility = false;
 		 		}
 		 	};	
 		 }();
 
 	/**
 	 * iShare 分享
-	 * @param  {Object} options 配置项
-	 * @return 
 	 */
 	function iShare() {
-		this.container = Util.getElementByclassN('div.iShare')[0];
 		var defaults = {
-			title       : document.title,
-			url         : location.href,
-			host        : location.origin || '',
-			description : Util.getmeta('description'),
-			image       : Util.getimg(),
-			WXoptions   : {}
-		};
+					title       : document.title,
+					url         : location.href,
+					host        : location.origin || '',
+					description : Util.getmeta('description'),
+					image       : Util.getimg(),
+					WXoptions   : {}
+				};
+
+		var configuration = window.iShare_config;
+		if(configuration){
+			if(configuration.container){
+				if(Util.getElement(configuration.container)){
+					this.container = Util.getElement(configuration.container);
+				} else {
+					throw new Error('there is such no className|id: "' + options.container + '".');
+				}
+			} else {
+				throw new Error('container property is required.');
+			}
+		} else {
+			throw new Error('container property is required.');
+		}
+		var dataSites = this.container.getAttribute('data-sites'),
+				dataSitesArr =  dataSites ? dataSites.split(/\s*,\s*/g) : null;
 
 		/* 验证用户输入的有效性 */
-		Util.validate(defaults, iShare_config);
-
+		(dataSitesArr) && (Util.validate(defaults.sites, dataSitesArr));
+		(configuration.config) && (Util.validate(defaults, configuration.config));
+		(configuration.config.sites) && (Util.validate(defaults.sites, configuration.config.sites));
+	
 		/* WX */
 		this.wx = null;
 
 		/* 保存defaults */
 		this.defaults = defaults;
-		this.config = window.iShare_config || {};
+		this.dataSites = dataSitesArr ? {sites: dataSitesArr} : {};
+		this.config = configuration.config ? configuration.config : {};
 
-		/* 验证是否在微信中 */
-		if(Util.isWeixinBrowser()){
-			this.defaults.splice(this.defaults.indexOf('iShare_wechat'), 1);
-			this.config.splice(this.config.indexOf('iShare_wechat'), 1);
-		}
-		this.settings = Util.extend(defaults, this.config);
+		this.settings = Util.extend(defaults, this.config, this.dataSites);
 		this.init();
 	}
 	iShare.prototype = (function(){
@@ -545,12 +585,12 @@
 	        iShare_googleplus  : 'https://plus.google.com/share?url={{URL}}&t={{TITLE}}',
 	        iShare_pinterest	 : 'https://www.pinterest.com/pin/create/button/?url={{URL}}&description={{DESCRIPTION}}&media={{IMAGE}}',
 	        iShare_tumblr			 : 'https://www.tumblr.com/widgets/share/tool?shareSource=legacy&canonicalUrl=&url={{URL}}&title={{TITLE}}'
-	    };
+	    	};
     /**
      * _updateUrl 更新添加分享的A标签
      */
 		function _updateUrl(){
-			if(!this.container.hasChildNodes()){
+			if(this.container === void(0) || !this.container.hasChildNodes()){
 				return;
 			}
 			var _children = this.container.childNodes,
@@ -559,7 +599,8 @@
 				if(item.nodeType === 1){
 					_tempURL = Util.parseClassName(item.className, Util.parseUrl(_templates, this.settings));
 					if(_tempURL){
-						if((item.className).indexOf('iShare_wechat') > -1){
+						/* 验证是否在微信中 */
+						if((item.className).indexOf('iShare_wechat') > -1 && !(Util.isWeixinBrowser())){
 							this.wx = new WX(item, _tempURL, this.settings.WXoptions);
 						} else {
 							item.href = _tempURL;
@@ -590,5 +631,9 @@
 			}
 		}
 	})();
-	return (new iShare());
+	if(window.iShare_config){
+		return (new iShare());
+	} else {
+		return iShare;
+	}
 });
