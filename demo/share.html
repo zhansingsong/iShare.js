@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>iShare</title>
+	<meta name="description" content="iShare是一个小巧的分享插件，纯JS编写，不依赖于任何第三方库，使用简便.">
+	<meta name="keywords" content="iShare,分享,分享到,分享插件,分享按钮,分享工具,网页分享">
+	<meta name="author" content="zhansingsong">	
+	<link rel="stylesheet" type="text/css" href="./style/fonts/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="./style/css/ishare.css">
+	<script type="text/javascript" src="./codeSyntax/scripts/shCore.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushBash.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushCpp.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushCSharp.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushCss.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushDelphi.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushDiff.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushGroovy.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushJava.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushPhp.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushPlain.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushPython.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushRuby.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushScala.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushSql.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushVb.js"></script>
+	<script type="text/javascript" src="./codeSyntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet" href="./codeSyntax/styles/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="./codeSyntax/styles/shThemeDefault.css"/>
+	<script type="text/javascript">
+	    SyntaxHighlighter.config.clipboardSwf = './codeSyntax/scripts/clipboard.swf';
+	    SyntaxHighlighter.all();
+	</script>
+	<style>
+		.demo{
+			position: relative;
+			padding-left: 20px;
+			margin-bottom: 40px;
+		}
+		.des{
+			background: #f8f8f8;
+		  padding: 10px;
+		  color: #d63d18;
+		  border-left: 2px solid #6ce26c;
+			}
+		h2{
+			border-left: 6px solid #6ce26c;
+			padding-left: 10px;
+		}
+		.warn{
+			font-weight: 700;
+			font-size: 20px;
+			border-left: 6px solid #E91E63;
+			background: #ffd5d5;
+		}
+		.iShare{
+			background: #f8f8f8;
+		}
+	</style>
+</head>
+<body>
+<h1>iShare版本</h1>
+<p class="des" style="font-weight:700;">
+支持两种初始化方式：
+<br>#1: 单例模式
+<br>#2: 实例化模式
+<br>
+<br>本文使用实例化模式来完成初始化工作</p>
+<pre class="brush: c;">
+/**
+ * usage
+ */
+
+// 引入样式文件(自定义样式可以不用引入)
+<link rel="stylesheet" type="text/css" href="./style/fonts/iconfont.css">
+<link rel="stylesheet" type="text/css" href="./style/css/ishare.css">
+
+// 引入脚本文件
+<script href="javascript:;" type="text/javascript" src="iShare.js"></script>
+
+// 引入HTML脚本
+<div class="iShare iShare-16 iShareClassName"></div> // 容器类名选择器: "iShareClassName"
+
+
+// 实例化对象
+<!-- 
+<script type="text/javascript">
+	(new iShare({container:'.iShare1',config:{
+		title: '分享标题',
+		description: '这是分享描述文本',
+		url: 'https://github.com/zhansingsong',
+		isAbroad: false,
+		isTitle: true,
+		initialized: true,
+		WXoptions:{
+			evenType: 'click',
+			isTitleVisibility: true,
+			title: '二维码标题',
+			isTipVisibility: true,
+			tip: '二维码描述文本',
+			bgcolor: '#2BAD13',
+		}
+	}}));
+</script> 
+-->
+</pre>
+<pre class="brush: javascript;">
+/**
+ * 配置项说明
+ */
+container: '.iShare1', //分享容器节点,仅支持'class'和'id'两种选择模式. 'class'模式: '.class'; 'id'模式: '#id'.
+config:
+	{
+		title: 'title',//分享标题. 默认：document.title
+		description: 'description',//分享描述文本. 默认：meta的description
+		url: 'url',//分享的URL. 默认：location.href
+		initialized: true,//自动创建必须开启字段. isAbroad，isTitle才能生效.默认开启
+		isAbroad: false,
+		//默认undefined，开启国外分享接口 + 国内分享接口.
+		//为true时，开启国外分享接口: 'iShare_facebook','iShare_linkedin','iShare_twitter','iShare_googleplus','iShare_tumblr','iShare_pinterest'.
+		//为false时，开启国内分享接口：'iShare_weibo','iShare_qq','iShare_wechat','iShare_tencent','iShare_douban','iShare_qzone','iShare_renren','iShare_youdaonote'.
+		isTitle: true,//开启title提示, 默认是false.
+		WXoptions:{
+			evenType: 'click',//微信二维码的触发方式,仅支持:'click'和'mouseover',默认为'mouseover'.
+			isTitleVisibility: true,//是否显示二维码标题,默认为显示,即为true.
+			title: '二维码标题',//二维码标题.
+			isTipVisibility: true,//是否显示二维码操作提示,默认为显示,即为true.
+			tip: '二维码描述文本',//二维码描述文本
+			bgcolor: '#2BAD13',//二维码的背景颜色
+		}
+	}
+</pre>
+<div class="demo">
+	<h2>实例1：默认配置</h2>
+	<p class="des">默认配置<br>icon大小：24px</p>
+	<div class="iShare iShare1"></div>
+	<pre class="brush: c;">
+		// 引入HTML脚本
+		<!-- 
+		<div class="iShare iShare1"></div>
+		-->
+	</pre>
+	<pre class="brush: javascript;">
+		// 引入配置
+		(new iShare({container:'.iShare1',config:{}}));
+	</pre>
+</div>
+<div class="demo">
+	<h2>实例2：国外分享接口</h2>
+	<p class="des">分享icon：16px；<br/>isAbroad：true(开启国外分享接口)；<br/>关闭isTitle</p>
+	<div class="iShare iShare-16 iShare2"></div>
+	<pre class="brush: c;">
+		// 引入HTML脚本
+		<!-- 
+		<div class="iShare iShare-16 iShare2"></div> //iShare-16: 表示分享icon大小为16px, 提供三种尺寸：16、24(默认)、32.
+		-->
+	</pre>
+	<pre class="brush: javascript;">
+	// 引入配置
+	(new iShare({container:'.iShare2',config:{
+		title: '分享标题',
+		description: '这是分享描述文本',
+		url: 'http://www.baidu.com',
+		isAbroad: true,
+		isTitle: true,
+		initialized: true
+	}}));
+	</pre>
+</div>
+<div class="demo">
+	<h2>实例3：国内分享接口</h2>
+	<p class="des">分享icon大小：32px；<br/>isAbroad：false(开启国内分享接口)； <br/>evenType：'click'(修改二维码触发方式为click)；<br/>isTipVisibility：true(隐藏二维码的tip)</p>
+	<div class="iShare iShare-32 iShare3"></div>
+	<pre class="brush: c;">
+		// 引入HTML脚本
+		<!-- 
+		<div class="iShare iShare-32 iShare3"></div> //iShare-32: 表示分享icon大小为32px, 提供三种尺寸：16(默认)、24、32.
+		-->
+	</pre>
+	<pre class="brush: javascript;">
+	// 引入配置
+	(new iShare({container:'.iShare1',config:{
+		title: '分享标题',
+		description: '这是分享描述文本',
+		url: 'http://www.baidu.com',
+		isAbroad: false,
+		isTitle: true,
+		initialized: true,
+		WXoptions:{
+			evenType: 'click',
+			isTitleVisibility: true,
+			title: '二维码标题',
+			isTipVisibility: true,
+			tip: '二维码描述文本',
+			bgcolor: '#2BAD13'
+		}
+	}}));
+	</pre>
+</div>
+<div class="demo">
+	<h2>实例4：自定义样式</h2>
+	<p class="des">initialized: false(关闭自动创建分享)<br>自定义样式只需要引入脚本文件即可，不需要引入样式文件。但需要指定为子元素指定类名</p>
+	<p class="warn">自定义样式推荐使用: iShare_tidy版本(主要用于自定义样式)</p>
+	<div class="iShare iShare4">
+		<a href="#" class="iShare_qzone"><i class="iconfont qzone">&#xe610;</i></a>
+		<a href="#" class="iShare_tencent"><i class="iconfont tencent" style="vertical-align: -2px;">&#xe608;</i></a>
+		<a href="#" class="iShare_weibo"><i class="iconfont weibo">&#xe609;</i></a>
+		<a href="#" class="iShare_wechat"><i class="iconfont wechat" style="vertical-align: -2px;">&#xe613;</i></a>
+		<a href="#" class="iShare_facebook"><i class="iconfont facebook" style="vertical-align: 1px;">&#xe601;</i></a>
+		<a href="#" class="iShare_googleplus"><i class="iconfont googleplus" style="vertical-align: -1px;">&#xe60b;</i></a>
+		<a href="#" class="iShare_linkedin"><i class="iconfont linkedin" style="vertical-align: 1px;">&#xe607;</i></a>
+		<a href="javascript:;" title="自定义分享">我是酱油一号</a>
+		<a href="javascript:;" title="自定义分享">我是酱油二号</a>
+	</div>
+	<pre class="brush: c;">
+		// 引入脚本文件
+		<!-- <script type="text/javascript" src="iShare.js"></script> -->
+	</pre>
+	<pre class="brush: c;">
+		// 引入HTML脚本
+		<!-- 
+		<div class="iShare iShare4">
+			<a href="#" class="iShare_qzone"><i class="iconfont qzone">&#xe610;</i></a>
+			<a href="#" class="iShare_tencent"><i class="iconfont tencent" style="vertical-align: -2px;">&#xe608;</i></a>
+			<a href="#" class="iShare_weibo"><i class="iconfont weibo">&#xe609;</i></a>
+			<a href="#" class="iShare_wechat"><i class="iconfont wechat" style="vertical-align: -2px;">&#xe613;</i></a>
+			<a href="#" class="iShare_facebook"><i class="iconfont facebook" style="vertical-align: 1px;">&#xe601;</i></a>
+			<a href="#" class="iShare_googleplus"><i class="iconfont googleplus" style="vertical-align: -1px;">&#xe60b;</i></a>
+			<a href="#" class="iShare_linkedin"><i class="iconfont linkedin" style="vertical-align: 2px;">&#xe607;</i></a>
+			<a href="#">我是酱油一号</a>
+			<a href="#">我是酱油二号</a>
+		</div>
+		//子元素需要指定如下的类名：
+		//iShare_qq         : 'QQ好友',
+		//iShare_qzone      : 'QQ空间',
+		//iShare_tencent    : '腾讯微博',
+		//iShare_weibo      : '新浪微博',
+		//iShare_wechat     : '微信',
+		//iShare_douban     : '豆瓣',
+		//iShare_renren			: '人人',
+		//iShare_youdaonote : '有道笔记',
+		//iShare_linkedin   : 'Linkedin',
+		//iShare_facebook   : 'Facebook',
+		//iShare_twitter    : 'Twitter',
+		//iShare_googleplus : 'Google+',
+		//iShare_pinterest	: 'Pinterest',
+		//iShare_tumblr			: 'Tumblr'
+		//插件会根据类名自动处理，如果存在不包含上述类名的子元素，该元素就不作任何处理。
+		-->
+	</pre>
+	<pre class="brush: javascript;">
+	// 引入配置
+	(new iShare({container:'.iShare4',config:{
+		title: '分享标题',
+		description: '这是分享描述文本',
+		url: 'http://www.baidu.com',
+		initialized: false,
+		WXoptions:{
+			evenType: 'click',
+			isTitleVisibility: true,
+			title: '二维码标题',
+			isTipVisibility: true,
+			tip: '二维码描述文本',
+			bgcolor: '#2BAD13'
+		}
+	}}));
+	</pre>
+</div>
+<script href="javascript:;" type="text/javascript" src="iShare.js"></script>
+<script type="text/javascript">
+	(new iShare({container:'.iShare1',config:{
+
+			}}));
+	(new iShare({container:'.iShare2',config:{
+				title: '分享标题',
+				description: '这是分享描述文本',
+				url: 'http://www.baidu.com',
+				isAbroad: true,
+				isTitle: false,
+				initialized: true
+			}}));
+	(new iShare({container:'.iShare3',config:{
+				title: '分享标题',
+				description: '这是分享描述文本',
+				url: 'http://www.baidu.com',
+				isAbroad: false,
+				isTitle: true,
+				initialized: true,
+				WXoptions:{
+					evenType: 'click',
+					isTitleVisibility: true,
+					title: '二维码标题',
+					isTipVisibility: true,
+					tip: '二维码描述文本',
+					bgcolor: '#2BAD13'
+				}
+			}}));
+	(new iShare({container:'.iShare4',config:{
+				title: '分享标题',
+				description: '这是分享描述文本',
+				url: 'http://www.baidu.com',
+				initialized: false,
+				WXoptions:{
+					evenType: 'click',
+					isTitleVisibility: true,
+					title: '二维码标题',
+					isTipVisibility: true,
+					tip: '二维码描述文本',
+					bgcolor: '#2BAD13'
+				}
+			}}));
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "ishare",
+  "version": "1.0.0",
+  "description": "ishare",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "iShare"
+  ],
+  "author": "zhansingsong",
+  "license": "MIT"
+}

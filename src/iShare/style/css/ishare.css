@@ -1,0 +1,62 @@
+.iShare a{
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  text-decoration: none;
+  margin-right: 10px;
+}
+.iShare a i{
+  color: #aaa;
+  font-size: 16px; 
+}
+.iShare-16 a i{
+  font-size: 16px; 
+}
+.iShare-24 a i{
+  font-size: 24px; 
+}
+.iShare-32 a i{
+  font-size: 32px; 
+}
+.iShare a:hover .qq{
+  color: #2196F3;
+}
+.iShare a:hover .qzone{
+  color: #FFC311;
+}
+.iShare a:hover .tencent{
+  color: #44ACFF;
+}
+.iShare a:hover .weibo{
+  color: #E6162D;
+}
+.iShare a:hover .douban{
+  color: #228A31;
+}
+.iShare a:hover .renren{
+  color: #217DC6;
+}
+.iShare a:hover .wechat{
+  color: #2BAD13;
+}
+.iShare a:hover .youdaonote{
+  color: #C4282B;
+}
+.iShare a:hover .facebook{
+  color: #405C97;
+}
+.iShare a:hover .twitter{
+  color: #1DA1F2;
+}
+.iShare a:hover .googleplus{
+  color: #DB4437;
+}
+.iShare a:hover .linkedin{
+  color: #0077B5;
+}
+.iShare a:hover .pinterest{
+  color: #CE151F;
+}
+.iShare a:hover .tumblr{
+  color: #2F4C6A;
+}
