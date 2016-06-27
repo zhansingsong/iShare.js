@@ -1,0 +1,22 @@
+{
+  "name": "zhansingsong-ishare",
+  "description": "ishare",
+  "main": "index.js",
+  "authors": [
+    "zhansingsong<zhansingsong@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "ishare",
+    "share",
+    "plugin"
+  ],
+  "homepage": "https://github.com/zhansingsong/iShare.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

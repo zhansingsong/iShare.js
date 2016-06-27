@@ -1,5 +1,5 @@
 # iShare.js
-
+[![npm version](https://badge.fury.io/js/zhansingsong-ishare.svg)](https://badge.fury.io/js/zhansingsong-ishare) ![Gemnasium](https://img.shields.io/gemnasium/mathiasbynens/he.svg?maxAge=2592000) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg?maxAge=2592000)
 ##### **iShare.js**是一个小巧的分享插件，纯JS编写，不依赖任何第三方库，使用简便。
 
 目前国内比较受欢迎的分享插件，都集成了很多常用的分享接口，功能都很丰富。不过个人体验后，总结如下不足（个人观点）：
@@ -10,11 +10,10 @@
 
 **iShare.js**是针对上述问题而诞生的，并为自定义样式的创建方式定制了专门的精简版：iShare_tidy
 
-![share](isharejs.png)
+![share](demo.gif)
 
 ## 安装
-
-`npm install zhansingsong-ishare`
+`npm install zhansingsong-ishare` || `bower install zhansingsong-ishare`
 
 ## Features
 
