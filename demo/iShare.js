@@ -553,7 +553,7 @@
 				if(Util.getElement(configuration.container)){
 					this.container = Util.getElement(configuration.container);
 				} else {
-					throw new Error('there is such no className|id: "' + options.container + '".');
+					throw new Error('there is such no className|id: "' + configuration.container + '".');
 				}
 			} else {
 				throw new Error('container property is required.');
