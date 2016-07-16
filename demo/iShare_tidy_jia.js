@@ -62,6 +62,7 @@
 					}
 				}
 			},
+
 			/**
 			 * trim 		
 			 * @param  {String} str 字符串
@@ -215,19 +216,17 @@
 			/**
 			 * getElementByclassN 通过class获取元素
 			 * @param  {String} classNameStr 类名
-			 * @param  {Node} parent 父元素
 			 * @return {DOMObject}
 			 *
 			 * @example
 			 * getElementByclassN('.test');
 			 */
-			getElementByclassN: function(classNameStr, parent) {
+			getElementByclassN: function(classNameStr) {
 				if(!classNameStr){
 					return;
 				}
 				var _result = [];
-
-				if(!parent && document.querySelectorAll){
+				if(document.querySelectorAll){
 					_result = document.querySelectorAll(classNameStr);
 					if(_result.length > 0){
 						return _result;
@@ -236,8 +235,7 @@
 				var _cnArr = classNameStr.split('.'),
 						_prefix = _cnArr[0] || '*',
 						_suffix = _cnArr[1],
-						_parent = parent ? parent : document.body,
-						_elements = _parent.getElementsByTagName(_prefix),
+						_elements = document.body.getElementsByTagName(_prefix),
 						_classNames,
 						_target;
 				var _me = this;
@@ -294,7 +292,7 @@
 				}
 				return _node;
 			},
-			
+
 			/**
 			 * parseUrl 解析URL
 			 * @param  {Object}	tpl  模板
@@ -392,46 +390,7 @@
 			 			fn.apply(context, args);
 			 		}, delay);
 			 	};
-			 },
-			/**
-			 * loadjs 加载js文件
-			 * @param {String} url 路径
-			 * @param {Function} callback 回调函数
-			 */
-			loadjs: function() {
-				var ready = false,
-						cb = [];
-				return function(url, callback){
-					var head = document.getElementsByTagName('head')[0],
-							node = document.createElement('script'),
-							isLoaded = document.getElementById('loaded'),
-							W3C = document.dispatchEvent;
-					cb.push(callback);
-					if(!ready){
-						node.setAttribute('type', 'text/javascript');
-						node.setAttribute('id', 'loaded');
-						node.setAttribute('src', url);
-
-						node[W3C ? 'onload' : 'onreadystatechange'] = function(){
-							if(ready){
-								return;
-							}
-							if(W3C || /loaded|complete/i.test(node.readyState)) {
-								ready = true;
-								var temp;
-								while(temp = cb.pop()){
-									temp();
-								}
-							}
-						};
-						(!isLoaded) && (head.appendChild(node));
-					} else {
-						if(callback){
-							callback();			
-						}
-					}
-				}
-			}()
+			 }
 		};
 
 		/**
@@ -445,20 +404,17 @@
 		 	this.wxbox = document.createElement('div');
 		 	// 配置项
 		 	this.URL = URL;
-		 	this.settings = options;
 		 	this.style = options.style;
 		 	this.bgcolor = options.bgcolor;
 		 	this.evenType = options.evenType || 'mouseover'; // 默认触发方式
 		 	this.isTitleVisibility = (options.isTitleVisibility === void(0)) ? true : options.isTitleVisibility; // 是否有标题
 		 	this.title = options.title || '分享到微信';
 		 	this.isTipVisibility = (options.isTipVisibility === void(0)) ? true : options.isTipVisibility; // 是否有提示
-		 	this.tip = options.tip || '“扫一扫” 即可将网页分享到朋友圈。';
+		 	this.tip = options.tip || '打开微信，使用 “扫一扫” 即可将网页分享到朋友圈。';
 		 	this.upDownFlag = '';// 保存up|down
 		 	this.status = false; // 保存状态
 		 	this.visibility = false;// 保存可见性
-		 	this.qrcode = null; // 保存二维码
 		 }
-		 WX.prototype.qrcode = null;// 保存二维码
 		 WX.prototype = function() {
 		 	return{
 		 		constructor: WX,
@@ -492,8 +448,7 @@
 		 			
 		 			var	_containerHTML = '<div style="text-align: center;background-color: ' + _bgcolor + ';box-shadow: 1px 1px 4px #888888;padding: 8px 8px 4px;border-radius: 4px;' + _radius + '">',
 		 					_titleHTML = this.isTitleVisibility ?  '<p class="tt" style="line-height: 30px;margin:0; text-shadow: 1px 1px rgba(0,0,0,0.1);font-weight: 700;margin-bottom: 4px;' + _titleStyle + '">' + this.title + '</p>' : '',
-		 					// _imgHTML = '<img  style="font-size: 12px;line-height: 20px; -webkit-user-select: none;box-shadow: 1px 1px 2px rgba(0,0,0,0.4); ' + _imgStyle + '" src="' + this.URL + '">',
-		 					_imgHTML = '<div class="qrcode" style="width:' + this.settings.qrcodeW + 'px; height:' + this.settings.qrcodeH + 'px; overflow:hidden;"></div>',
+		 					_imgHTML = '<img  style="font-size: 12px;line-height: 20px; -webkit-user-select: none;box-shadow: 1px 1px 2px rgba(0,0,0,0.4); ' + _imgStyle + '" src="' + this.URL + '">',
 		 					_tipHTML = this.isTipVisibility ? '<p style="font-size: 12px;line-height: 20px; margin: 4px auto;width: 120px;' + _tipStyle + '">' + this.tip + '</p>' : '',
 		 					_upArrowHTML = '<div style="' + _upFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-bottom-color: ' + _bgcolor + ';border-top: none;"></div>',
 		 					_downArrowHTML = '</div><div style="' + _downFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-top-color: ' + _bgcolor + ';border-bottom: none;"></div>';
@@ -539,32 +494,18 @@
 		 			} else {
 			 			Util.event.addEvent(this.element, 'mouseover', function(e){
 			 				var event = e || window.event;
-		 					// Util.event.stopPropagation(event);
+		 					Util.event.stopPropagation(event);
 		 					_me.show();
 			 			});
 			 			Util.event.addEvent(this.element, 'mouseout', function(e){
 			 				var event = e || window.event;
-			 				// Util.event.stopPropagation(event);
+			 				Util.event.stopPropagation(event);
 			 				_me.hide();
 			 			});
 		 			}
 		 			Util.event.addEvent(window, 'resize', Util.throttle(function(){
 		 				(_me.status) && (_me.visibility) && (_me.setLocation());
 		 			}, 200));
-		 		},
-		 		startQR: function(){
-		 			var me = this;
-		 			return function(){
-		 				if(!me.qrcode){
-		 					me.qrcode = new QRCode(Util.getElementByclassN('.qrcode', me.wxbox)[0], {
-	 					    text: me.URL,
-	 					    width: me.settings.qrcodeW,
-	 					    height: me.settings.qrcodeH,
-	 					    colorDark : me.settings.qrcodeFgc,
-	 					    colorLight : me.settings.qrcodeBgc
-		 					});
-		 				}
-		 			}
 		 		},
 		 		show: function(){
 	 				this.status = true;
@@ -582,16 +523,8 @@
 		 	};	
 		 }();
 
-
 	/**
 	 * iShare 分享
-	 * @param  {Object} options 配置项
-	 * @property container
-	 * @property config
-	 *
-	 * @description 提供两种初始化方式
-	 * #1 单例模式
-	 * #2 实例化模式 
 	 */
 	function iShare(options) {
 		var defaults = {
@@ -600,17 +533,7 @@
 					host        : location.origin || '',
 					description : Util.getmeta('description'),
 					image       : Util.getimg(),
-					sites       : ['iShare_weibo','iShare_qq','iShare_wechat','iShare_tencent','iShare_douban','iShare_qzone','iShare_renren','iShare_youdaonote','iShare_facebook','iShare_linkedin','iShare_twitter','iShare_googleplus','iShare_tumblr','iShare_pinterest'],
-					initialized : true,
-					isTitle     : true,
-					isAbroad    : false,
-					WXoptions   : {
-						qrcodeW: 120,
-						qrcodeH: 120,
-						qrcodeBgc: '#fff',
-						qrcodeFgc: '#000',
-						bgcolor: '#2BAD13'
-					}
+					WXoptions   : {}
 				};
 
 		var configuration = options || window.iShare_config;
@@ -627,7 +550,6 @@
 		} else {
 			throw new Error('container property is required.');
 		}
-	
 		var dataSites = this.container.getAttribute('data-sites'),
 				dataSitesArr =  dataSites ? dataSites.split(/\s*,\s*/g) : null;
 
@@ -635,7 +557,7 @@
 		(dataSitesArr) && (Util.validate(defaults.sites, dataSitesArr));
 		(configuration.config) && (Util.validate(defaults, configuration.config));
 		(configuration.config.sites) && (Util.validate(defaults.sites, configuration.config.sites));
-		
+	
 		/* WX */
 		this.wx = null;
 
@@ -644,36 +566,16 @@
 		this.dataSites = dataSitesArr ? {sites: dataSitesArr} : {};
 		this.config = configuration.config ? configuration.config : {};
 
-		// 处理isAbroad
-		if((this.config.isAbroad === void(0))){
-			this.config.sites = this.defaults.sites; // 默认
-		} else {
-			if(this.config.isAbroad){
-				this.config.sites = defaults.sites.slice(8); // 国外
-			} else {
-				this.config.sites = defaults.sites.slice(0, 8); // 国内
-			}
-		}
-
-		/* 验证是否在微信中 */
-		if(Util.isWeixinBrowser()){
-			(this.defaults.indexOf('iShare_wechat') > -1) && (this.defaults.splice(this.defaults.indexOf('iShare_wechat'), 1));
-			(this.dataSites.indexOf('iShare_wechat') > -1) && (this.dataSites.splice(this.dataSites.indexOf('iShare_wechat'), 1));
-			(this.config.indexOf('iShare_wechat') > -1) && (this.config.splice(this.config.indexOf('iShare_wechat'), 1));
-		}
-
 		this.settings = Util.extend(defaults, this.config, this.dataSites);
-		this.settings.WXoptions = Util.extend(defaults.WXoptions, this.config.WXoptions);
 		this.init();
 	}
 	iShare.prototype = (function(){
-		// 接口模板
 		var _templates = {
 	        iShare_qq          : 'http://connect.qq.com/widget/shareqq/index.html?url={{URL}}&title={{TITLE}}&desc={{DESCRIPTION}}&summary=&pics={{IMAGE}}',
 	        iShare_qzone       : 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={{URL}}&title={{TITLE}}&summary={{DESCRIPTION}}&pics={{IMAGE}}&desc=&site=',
 	        iShare_tencent     : 'http://share.v.t.qq.com/index.php?c=share&a=index&title={{TITLE}}&url={{URL}}&pic={{IMAGE}}',
 	        iShare_weibo       : 'http://service.weibo.com/share/share.php?url={{URL}}&title={{TITLE}}&pic={{IMAGE}}',
-	        iShare_wechat			 : '',
+	        iShare_wechat      : 'http://s.jiathis.com/qrcode.php?url={{URL}}',
 	        iShare_douban      : 'http://shuo.douban.com/!service/share?href={{URL}}&name={{TITLE}}&text={{DESCRIPTION}}&image={{IMAGE}}',
 	        iShare_renren			 : 'http://widget.renren.com/dialog/share?resourceUrl={{URL}}&title={{TITLE}}&pic={{IMAGE}}&description={{DESCRIPTION}}',
 	        iShare_youdaonote  : 'http://note.youdao.com/memory/?title={{TITLE}}&pic={{IMAGE}}&summary={{DESCRIPTION}}&url={{URL}}',
@@ -683,123 +585,42 @@
 	        iShare_googleplus  : 'https://plus.google.com/share?url={{URL}}&t={{TITLE}}',
 	        iShare_pinterest	 : 'https://www.pinterest.com/pin/create/button/?url={{URL}}&description={{DESCRIPTION}}&media={{IMAGE}}',
 	        iShare_tumblr			 : 'https://www.tumblr.com/widgets/share/tool?shareSource=legacy&canonicalUrl=&url={{URL}}&title={{TITLE}}'
-	    },
-  			_names = {
-          iShare_qq          : 'QQ好友',
-          iShare_qzone       : 'QQ空间',
-          iShare_tencent     : '腾讯微博',
-          iShare_weibo       : '新浪微博',
-          iShare_wechat      : '微信',
-          iShare_douban      : '豆瓣',
-          iShare_renren			 : '人人',
-          iShare_youdaonote  : '有道笔记',
-          iShare_linkedin    : 'Linkedin',
-          iShare_facebook    : 'Facebook',
-          iShare_twitter     : 'Twitter',
-          iShare_googleplus  : 'Google+',
-          iShare_pinterest	 : 'Pinterest',
-          iShare_tumblr			 : 'Tumblr'
-      },
-      	_icons = {
-          iShare_qq          : '<i class="iconfont qq">&#xe60f;</i>',
-          iShare_qzone       : '<i class="iconfont qzone">&#xe610;</i>',
-          iShare_tencent     : '<i class="iconfont tencent" style="vertical-align: -2px;">&#xe608;</i>',
-          iShare_weibo       : '<i class="iconfont weibo">&#xe609;</i>',
-          iShare_wechat      : '<i class="iconfont wechat" style="vertical-align: -2px;">&#xe613;</i>',
-          iShare_douban      : '<i class="iconfont douban" style="vertical-align: -2px;">&#xe612;</i>',
-          iShare_renren			 : '<i class="iconfont renren">&#xe603;</i>',
-          iShare_youdaonote  : '<i class="iconfont youdaonote" style="vertical-align: -2px;">&#xe604;</i>',
-          iShare_linkedin    : '<i class="iconfont linkedin" style="vertical-align: 1px;">&#xe607;</i>',
-          iShare_facebook    : '<i class="iconfont facebook" style="vertical-align: 1px;">&#xe601;</i>',
-          iShare_twitter     : '<i class="iconfont twitter" style="vertical-align: 1px;">&#xe60a;</i>',
-          iShare_googleplus  : '<i class="iconfont googleplus" style="vertical-align: -2px;">&#xe60b;</i>',
-          iShare_pinterest	 : '<i class="iconfont pinterest" style="vertical-align: -2px;">&#xe60c;</i>',
-          iShare_tumblr			 : '<i class="iconfont tumblr" style="vertical-align: 0px;">&#xe600;</i>'
-      };
+	    	};
     /**
      * _updateUrl 更新添加分享的A标签
      */
 		function _updateUrl(){
-			if(!this.container.hasChildNodes()){
+			if(this.container === void(0) || !this.container.hasChildNodes()){
 				return;
 			}
 			var _children = this.container.childNodes,
 					_tempURL;
-
 			for(var i = 0, item; item = _children[i++];){
 				if(item.nodeType === 1){
 					_tempURL = Util.parseClassName(item.className, Util.parseUrl(_templates, this.settings));
-					if((item.className).indexOf('iShare_wechat') > -1){
-						// this.wx = new WX(item, _tempURL, this.settings.WXoptions);
-						this.wx = new WX(item, this.settings.url, this.settings.WXoptions);
-					} else {
-						_tempURL && (item.href = _tempURL);
-						item.target = '_blank';
+					if(_tempURL){
+						/* 验证是否在微信中 */
+						if((item.className).indexOf('iShare_wechat') > -1 && !(Util.isWeixinBrowser())){
+							this.wx = new WX(item, _tempURL, this.settings.WXoptions);
+						} else {
+							item.href = _tempURL;
+							item.target = '_blank';
+						}
 					}
 				}
 			}
 		}
-		/**
-		 * _createShareElements 创建分享元素
-		 * @param  {String}  url      分享接口
-		 * @param  {String}  item     key
-		 * @param  {Boolean} isWechat 是否是微信
-		 * @return {DOMObject}           
-		 */
-		function _createShareElements(url, item, isWechat){
-			var _e = document.createElement('a');
-			_e.innerHTML = _icons[item];
-			if(this.settings.isTitle){
-				_e.title = _names[item];
-			}
-			if(isWechat){
-				this.wx = new WX(_e, url, this.settings.WXoptions);
-				_e.href = 'javascript:void(0);';
-			} else {
-				_e.href = url;
-				_e.target = '_blank';
-			}
-			return _e;
-		}
-		/**
-		 * _autoUpdate 动态创建分享
-		 */
-		function _autoUpdate(){
-			var _docfrag = document.createDocumentFragment(),
-					_tpls = Util.parseUrl(_templates, this.settings),
-					_element,
-					_me = this;
-
-			Util.each(_me.settings.sites, function(index, item){
-					if(item === 'iShare_wechat'){
-						// _element = _createShareElements.call(_me, _tpls[item], item, true);
-						_element = _createShareElements.call(_me, _me.settings.url, item, true);
-					} else {
-						_element = _createShareElements.call(_me, _tpls[item], item);
-					}
-					_docfrag.appendChild(_element);
-			});
-			this.container.innerHTML = '';
-			this.container.appendChild(_docfrag);
-		}
-
 		//prototype
 		return{
 			constructor: iShare,
 			init: function() {
-				if(this.settings.initialized){
-					_autoUpdate.call(this);
-				} else {
-					_updateUrl.call(this);
-				}
+				_updateUrl.call(this);
 				if(this.wx){
 					this.bindEvent();
 					this.wx.init();
-					// 加载qrcode库
-					Util.loadjs('qrcode.min.js', this.wx.startQR());
 				}
 			},
-		bindEvent: function(){
+			bindEvent: function(){
 			var me = this;
 			// 只绑定一次，进行初始化
 			function mouseenterCB(){

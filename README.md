@@ -11,6 +11,8 @@
 **iShare.js**是针对上述问题而诞生的，并为自定义样式的创建方式定制了专门的精简版：iShare_tidy
 
 ![share](demo.gif)
+##### 定制二维码样式：
+![share](ishare.png)
 
 ## 安装
 `npm install zhansingsong-ishare` || `bower install zhansingsong-ishare`
@@ -61,7 +63,11 @@ config:
 			title: '二维码标题',
 			isTipVisibility: true,
 			tip: '二维码描述文本',
-			bgcolor: '#2BAD13'
+			bgcolor: '#2BAD13',
+			qrcodeW: '二维码宽度',
+			qrcodeH: '二维码高度',
+			qrcodeBgc: '二维码背景色',
+			qrcodeFgc: '二维码前景色'
 		}
 	}
 ```
@@ -87,6 +93,10 @@ config:
         - isTipVisibility：是否显示二维码描述信息，默认为显示，即为`true`.
         - tip：二维码描述文本
         - bgcolor：二维码的背景颜色
+        - qrcodeW：二维码宽度, 默认`120`
+        - qrcodeH：二维码高度, 默认`120`
+        - qrcodeBgc：二维码背景色, 默认`#fff`
+        - qrcodeFgc：二维码前景色, 默认`#000`
 
 ## 使用
 ##### 支持两种初始化方式：
@@ -95,6 +105,9 @@ config:
 
 > <font color="red">注意：不要同时使用两种模式</font>
 
+***
+#### ++ 如果存在微信分享，需要引入qrcode.min.js文件，并存放在iShare.js|iShare_tidy.js同级目录中。插件会自动加载。 ++
+***
 #### 单例模式
 > <font color="#E91E63">本实例展示了自定义样式分享的创建过程。另外本库针对自定义样式的创建提炼出一个精简版本：iShare_tidy版本</font>
 
@@ -148,6 +161,10 @@ iShare_config = {container:'.iShare1',config:{
 			isTipVisibility: true,
 			tip: '二维码描述文本',
 			bgcolor: '#2BAD13',
+			qrcodeW: 120,
+			qrcodeH: 120,
+			qrcodeBgc: #fff,
+			qrcodeFgc: #000
 		}
 	}};
 </script>
@@ -185,10 +202,17 @@ iShare_config = {container:'.iShare1',config:{
 			isTipVisibility: true,
 			tip: '二维码描述文本',
 			bgcolor: '#2BAD13',
+			qrcodeW: 120,
+			qrcodeH: 120,
+			qrcodeBgc: #fff,
+			qrcodeFgc: #000
 		}
 	}}));
 </script>
 ```
+## Changelog
+- **1.1.0: **修改二维码的生成接口，现由`https://github.com/davidshimjs/qrcodejs`库来生成。并增加
+`qrcodeW`,`qrcodeH`,`qrcodeBgc`,`qrcodeFgc`配置项。
 
 ## 更多详情请参考DEMO
 - [iShare版本](http://zhansingsong.github.io/demo/iShare.html)

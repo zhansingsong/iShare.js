@@ -3,7 +3,7 @@
 <head>
 	<title>iShare</title>
 	<meta name="description" content="iShare是一个小巧的分享插件，纯JS编写，不依赖于任何第三方库，使用简便.">
-	<meta name="keywords" content="iShare,分享,分享到,分享插件,分享按钮,分享工具,网页分享">
+	<meta name="keywords" content="社会化分享,社会化分享组件,iShare,分享,分享到,分享插件,分享按钮,分享工具,网页分享">
 	<meta name="author" content="zhansingsong">	
 	<link rel="stylesheet" type="text/css" href="./style/fonts/iconfont.css">
 	<link rel="stylesheet" type="text/css" href="./style/css/ishare.css">
@@ -99,6 +99,10 @@
 			isTipVisibility: true,
 			tip: '二维码描述文本',
 			bgcolor: '#2BAD13',
+			qrcodeW: '二维码宽度',
+			qrcodeH: '二维码高度',
+			qrcodeBgc: '二维码背景色',
+			qrcodeFgc: '二维码前景色'
 		}
 	}}));
 </script> 
@@ -127,6 +131,10 @@ config:
 			isTipVisibility: true,//是否显示二维码操作提示,默认为显示,即为true.
 			tip: '二维码描述文本',//二维码描述文本
 			bgcolor: '#2BAD13',//二维码的背景颜色
+			qrcodeW: '120',//二维码宽度
+			qrcodeH: '120',//二维码高度
+			qrcodeBgc: '#0f0',//二维码背景色
+			qrcodeFgc: '#000'//二维码前景色
 		}
 	}
 </pre>
@@ -192,6 +200,10 @@ config:
 			title: '二维码标题',
 			isTipVisibility: true,
 			tip: '二维码描述文本',
+			qrcodeW: 140,
+			qrcodeH: 140,
+			qrcodeBgc: '#fff',
+			qrcodeFgc: '#000',
 			bgcolor: '#2BAD13'
 		}
 	}}));
@@ -261,7 +273,11 @@ config:
 			title: '二维码标题',
 			isTipVisibility: true,
 			tip: '二维码描述文本',
-			bgcolor: '#2BAD13'
+			qrcodeW: 180,
+			qrcodeH: 180,
+			qrcodeBgc: '#fce4ec',
+			qrcodeFgc: '#000',
+			bgcolor: '#e91e63'
 		}
 	}}));
 	</pre>
@@ -292,6 +308,10 @@ config:
 					title: '二维码标题',
 					isTipVisibility: true,
 					tip: '二维码描述文本',
+					qrcodeW: 140,
+					qrcodeH: 140,
+					qrcodeBgc: '#fff',
+					qrcodeFgc: '#000',
 					bgcolor: '#2BAD13'
 				}
 			}}));
@@ -306,7 +326,11 @@ config:
 					title: '二维码标题',
 					isTipVisibility: true,
 					tip: '二维码描述文本',
-					bgcolor: '#2BAD13'
+					qrcodeW: 180,
+					qrcodeH: 180,
+					qrcodeBgc: '#fce4ec',
+					qrcodeFgc: '#000',
+					bgcolor: '#e91e63'
 				}
 			}}));
 </script>

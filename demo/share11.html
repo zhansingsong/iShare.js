@@ -25,21 +25,24 @@
 </div>
 <script href="javascript:;" type="text/javascript">
 	var iShare_config = {
-		title: '我是詹兴祥',
-		description: '水淀粉及爱丽丝的房间里爱神的箭发牢骚',
-		url: 'http://www.baidu.com',
-		// isAbroad: false,
-		isTitle: true,
-		initialized: true,
-		WXoptions:{
-			evenType: 'click',
-			isTitleVisibility: true,
-			isTipVisibility: false,
-			tip: '这是一段测试文本',
-			title: '这是QR CODE'
+		container:'.iShare',
+		config:{
+			title: '我是詹兴祥',
+			description: '水淀粉及爱丽丝的房间里爱神的箭发牢骚',
+			url: 'http://www.sogou.com',
+			// isAbroad: false,
+			// isTitle: true,
+			// initialized: false,
+			WXoptions:{
+				evenType: 'click',
+				isTitleVisibility: true,
+				isTipVisibility: true,
+				tip: '这是一段测试文本',
+				title: 'QR CODE'
+			}
 		}
 	}
 </script>
-<script href="javascript:;" type="text/javascript" src="iShare.min.js"></script>
+<script href="javascript:;" type="text/javascript" src="iShare_tidy.js"></script>
 </body>
 </html>
