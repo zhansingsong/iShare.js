@@ -106,7 +106,7 @@ config:
 > <font color="red">注意：不要同时使用两种模式</font>
 
 ***
-#### ++ 如果存在微信分享，需要引入qrcode.min.js文件，并存放在iShare.js|iShare_tidy.js同级目录中。插件会自动加载。 ++
+##### 如果存在微信分享，需要引入qrcode.min.js文件，并存放在iShare.js|iShare_tidy.js同级目录中。插件会自动加载。
 ***
 #### 单例模式
 > <font color="#E91E63">本实例展示了自定义样式分享的创建过程。另外本库针对自定义样式的创建提炼出一个精简版本：iShare_tidy版本</font>
@@ -211,7 +211,7 @@ iShare_config = {container:'.iShare1',config:{
 </script>
 ```
 ## Changelog
-- **1.1.0: **修改二维码的生成接口，现由`https://github.com/davidshimjs/qrcodejs`库来生成。并增加
+- 1.1.0：修改二维码的生成接口，现由`https://github.com/davidshimjs/qrcodejs`库来生成。并增加
 `qrcodeW`,`qrcodeH`,`qrcodeBgc`,`qrcodeFgc`配置项。
 
 ## 更多详情请参考DEMO
