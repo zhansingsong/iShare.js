@@ -263,7 +263,7 @@
 			getmeta: function(name) {
 				var _metas = document.getElementsByTagName('meta');
 				for(var i = 0, _item; _item = _metas[i++];){
-					if(_item.getAttribute('name').toLowerCase() === name){
+					if(_item.getAttribute('name') && _item.getAttribute('name').toLowerCase() === name){
 						return _item.content;
 					}
 				}
