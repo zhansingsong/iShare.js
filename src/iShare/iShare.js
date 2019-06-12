@@ -796,7 +796,17 @@
 					this.bindEvent();
 					this.wx.init();
 					// 加载qrcode库
-					Util.loadjs('qrcode.min.js', this.wx.startQR());
+					var js = document.scripts;
+					var path = "";
+					var c=js.length;
+					for(var i=0;i<c;i++){
+						var it=js[i];
+						var src=it.src;
+						if(src.indexOf("iShare")>=0){
+							path=src.substring(0,src.lastIndexOf('/')+1)
+						}
+					}
+					Util.loadjs(path+'qrcode.min.js', this.wx.startQR());
 				}
 			},
 		bindEvent: function(){
