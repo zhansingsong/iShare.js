@@ -502,19 +502,20 @@
 
 		      this.wxbox.innerHTML = WXSTR;
 					this.wxbox.style.cssText = 'position:absolute; left: -99999px;';
-					
-		      this.element.appendChild(this.wxbox);
+					this.element.appendChild(this.wxbox);
 		 		},
 		 		setLocation: function(flag){
-		 			// 渲染后再调整位置
-		 			var _boxW = this.wxbox.offsetWidth,
-		 					_boxH = this.wxbox.offsetHeight,
-		 					_eW = this.element.offsetWidth,
-		 					_eH = this.element.offsetHeight,
-		 					_eTop = Util.getElementTop(this.element),
-		 					_eLeft = Util.getElementLeft(this.element),
-		 					_boxStyle = 'position:absolute; color: #000;z-index: 99999;';
-		 			
+					var _boxH = this.wxbox.offsetHeight,
+							_eW = this.element.offsetWidth,
+							_eH = this.element.offsetHeight,
+							_boxStyle = 'position:absolute; color: #000;z-index: 99999;';
+					
+					_boxStyle = _boxStyle + 'left: ' + ( _eW / 2 - 12) + 'px;';
+					if(this.upDownFlag === 'down'){
+						_boxStyle = _boxStyle + 'top: ' + (- _boxH) + 'px;';
+					} else {
+						_boxStyle = _boxStyle + 'top: ' + (_eH) + 'px;';
+					}
 		 			this.wxbox.style.cssText = _boxStyle + this.style;
 		 			flag && (this.hide());
 		 		},
@@ -543,9 +544,6 @@
 			 				_me.hide();
 			 			});
 		 			}
-		 			Util.event.addEvent(window, 'resize', Util.throttle(function(){
-		 				(_me.status) && (_me.visibility) && (_me.setLocation());
-		 			}, 200));
 		 		},
 		 		startQR: function(){
 		 			var me = this;
