@@ -501,8 +501,9 @@
 		      var WXSTR = _upArrowHTML + _containerHTML + _titleHTML + _imgHTML + _tipHTML + _downArrowHTML;
 
 		      this.wxbox.innerHTML = WXSTR;
-		      this.wxbox.style.cssText = 'position:absolute; left: -99999px;';
-		      document.body.appendChild(this.wxbox);
+					this.wxbox.style.cssText = 'position:absolute; left: -99999px;';
+					
+		      this.element.appendChild(this.wxbox);
 		 		},
 		 		setLocation: function(flag){
 		 			// 渲染后再调整位置
@@ -514,12 +515,6 @@
 		 					_eLeft = Util.getElementLeft(this.element),
 		 					_boxStyle = 'position:absolute; color: #000;z-index: 99999;';
 		 			
-		 			_boxStyle = _boxStyle + 'left: ' + ( _eW / 2 - 12 + _eLeft) + 'px;';
-		 			if(this.upDownFlag === 'down'){
-		 				_boxStyle = _boxStyle + 'top: ' + (_eTop - _boxH) + 'px;';
-		 			} else {
-		 				_boxStyle = _boxStyle + 'top: ' + (_eTop + _eH) + 'px;';
-		 			}
 		 			this.wxbox.style.cssText = _boxStyle + this.style;
 		 			flag && (this.hide());
 		 		},
