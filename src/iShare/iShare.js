@@ -505,10 +505,9 @@
 				}
 
 				var _containerHTML = '<div style="text-align: center;background-color: ' + _bgcolor + ';box-shadow: 1px 1px 4px #888888;padding: 8px 8px 4px;border-radius: 4px;' + _radius + '">',
-					_titleHTML = this.isTitleVisibility ? '<p class="tt" style="line-height: 30px;margin:0; text-shadow: 1px 1px rgba(0,0,0,0.1);font-weight: 700;margin-bottom: 4px;' + _titleStyle + '">' + this.title + '</p>' : '',
-					// _imgHTML = '<img  style="font-size: 12px;line-height: 20px; -webkit-user-select: none;box-shadow: 1px 1px 2px rgba(0,0,0,0.4); ' + _imgStyle + '" src="' + this.URL + '">',
+					_titleHTML = this.isTitleVisibility ? '<p class="tt" style="line-height:30px;margin:0; text-shadow: 1px 1px rgba(0,0,0,0.1);font-weight: 700;margin-bottom: 4px;' + _titleStyle + '">' + this.title + '</p>' : '',
 					_imgHTML = '<div class="qrcode" style="width:' + this.settings.qrcodeW + 'px; height:' + this.settings.qrcodeH + 'px; overflow:hidden;"></div>',
-					_tipHTML = this.isTipVisibility ? '<p style="font-size: 12px;line-height: 20px; margin: 4px auto;width: 120px;' + _tipStyle + '">' + this.tip + '</p>' : '',
+					_tipHTML = this.isTipVisibility ? '<p style="line-height:20px;font-size: 12px; margin: 4px auto;width: 120px;' + _tipStyle + '">' + this.tip + '</p>' : '',
 					_upArrowHTML = '<div style="' + _upFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-bottom-color: ' + _bgcolor + ';border-top: none;"></div>',
 					_downArrowHTML = '</div><div style="' + _downFlag + 'position: relative;height: 0;width: 0;border-style: solid;border-width: 12px;border-color: transparent;border-top-color: ' + _bgcolor + ';border-bottom: none;"></div>';
 				// 拼接WXHTML
@@ -524,11 +523,9 @@
 					_eW = this.element.offsetWidth,
 					_eH = this.element.offsetHeight,
 					_boxStyle = 'position:absolute; color: #000;z-index: 99999;';
-
 				_boxStyle = _boxStyle + 'left: ' + (_eW / 2 - 12) + 'px;';
-				console.log(_boxH);
 				if (this.upDownFlag === 'down') {
-					_boxStyle = _boxStyle + 'top: ' + (- _boxH) + 'px;';
+					_boxStyle = _boxStyle + 'bottom: ' + (_eH) + 'px;';
 				} else {
 					_boxStyle = _boxStyle + 'top: ' + (_eH) + 'px;';
 				}
